@@ -52,9 +52,6 @@ static struct dentry *procg_mount(struct file_system_type *fs_type,
 	meminfo_inode = meminfo->d_inode;
 	meminfo_inode->i_fop = &meminfo_cgroup_fop;
 	mutex_unlock(&raw_proc_fs->d_inode->i_mutex);
-	printk(KERN_INFO "Raw: %pd\n", raw_proc_fs);
-	printk(KERN_INFO "Meminfo: %pd\n", meminfo);
-	printk(KERN_INFO "Meminfo inode: %lu\n", meminfo->d_inode->i_ino);
 
 	return raw_proc_fs;
 }
