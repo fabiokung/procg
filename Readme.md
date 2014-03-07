@@ -15,6 +15,14 @@ sudo dkms build -m procg -v 0.0.1
 sudo dkms install -m procg -v 0.0.1
 ```
 
+To build a debian package:
+
+```
+sudo dkms mkdeb procg/0.0.1 --source-only
+```
+
+The package will be at `/var/lib/dkms/procg/0.0.1/deb/procg-dkms_0.0.1_all.deb`
+
 ### Usage
 
 Once the module is installed (`/lib/modules/$(uname -r)/updates/dkms`):

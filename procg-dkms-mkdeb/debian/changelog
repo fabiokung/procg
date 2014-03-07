@@ -1,0 +1,6 @@
+DEBIAN_PACKAGE-dkms (MODULE_VERSION) stable; urgency=low
+
+  * Automatically packaged by DKMS.
+
+ -- Fabio Kung <fabio.kung@gmail.com>  DATE_STAMP
+
