@@ -1,0 +1,6 @@
+config PROC_CGROUP_FS
+	tristate "cgroup aware /proc file system support"
+	depends on PROC_FS && MEMCG
+	default m
+	help
+	  procfs that uses information from cgroup controllers when available.
