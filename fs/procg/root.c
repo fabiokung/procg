@@ -1,19 +1,71 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
+#include <linux/err.h>
+#include <linux/mutex.h>
 #include <linux/init.h>
+#include <linux/sched.h>
+#include <linux/res_counter.h>
 #include <linux/dcache.h>
 #include <linux/fs.h>
 #include <linux/seq_file.h>
 #include <linux/namei.h>
-#include <linux/mutex.h>
-#include <linux/err.h>
+#include <linux/memcontrol.h>
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Fabio Kung");
 
 static int meminfo_cgroup_show(struct seq_file *m, void *v)
 {
-	seq_printf(m, "WIP\n");
+	struct mem_cgroup *memcg;
+	u64 mem_total, mem_used, mem_free, mem_available;
+
+	memcg = mem_cgroup_from_task(current);
+	if (!memcg) {
+		return SEQ_SKIP;
+	}
+
+	mem_total = mem_cgroup_get_limit(memcg, false);
+	mem_used = mem_cgroup_usage(memcg, false);
+	mem_free  = mem_total - mem_used;
+	mem_available = mem_free;
+
+	seq_printf(m,
+		"MemTotal:       %8llu kB\n"
+		"MemFree:        %8llu kB\n"
+		"MemAvailable:   %8llu kB\n"
+		//"Buffers:        %8lu kB\n"
+		//"Cached:         %8lu kB\n"
+		//"SwapCached:     %8lu kB\n"
+		//"Active:         %8lu kB\n"
+		//"Inactive:       %8lu kB\n"
+		//"Active(anon):   %8lu kB\n"
+		//"Inactive(anon): %8lu kB\n"
+		//"Active(file):   %8lu kB\n"
+		//"Inactive(file): %8lu kB\n"
+		//"Unevictable:    %8lu kB\n"
+		//"Mlocked:        %8lu kB\n"
+		//"SwapTotal:      %8lu kB\n"
+		//"SwapFree:       %8lu kB\n"
+		//"Dirty:          %8lu kB\n"
+		//"Writeback:      %8lu kB\n"
+		//"AnonPages:      %8lu kB\n"
+		//"Mapped:         %8lu kB\n"
+		//"Shmem:          %8lu kB\n"
+		//"Slab:           %8lu kB\n"
+		//"SReclaimable:   %8lu kB\n"
+		//"SUnreclaim:     %8lu kB\n"
+		//"KernelStack:    %8lu kB\n"
+		//"PageTables:     %8lu kB\n"
+		//"CommitLimit:    %8lu kB\n"
+		//"Committed_AS:   %8lu kB\n"
+		//"VmallocTotal:   %8lu kB\n"
+		//"VmallocUsed:    %8lu kB\n"
+		//"VmallocChunk:   %8lu kB\n"
+		,
+		mem_total >> 10,
+		mem_free >> 10,
+		mem_available >> 10
+		);
 	return 0;
 }
 

@@ -1,0 +1,19 @@
+From 416df3c077369f3fefb9d628ea8a205f997f02c6 Mon Sep 17 00:00:00 2001
+From: Fabio Kung <fabio.kung@gmail.com>
+Date: Wed, 12 Mar 2014 10:12:42 -0700
+Subject: [PATCH 0/2] Expose memcg stats
+
+With that, procfs, sysfs and other parts of the kernel (eg.: `sysinfo(2)`) may
+decide to display cgroup-aware stats for memory.
+
+Fabio Kung (2):
+  memcontrol: make mem_cgroup_is_root public
+  memcontrol: make memcg stats public
+
+ include/linux/memcontrol.h |  35 ++++++++++++++++
+ mm/memcontrol.c            | 102 ++++++++++++++++++++++++---------------------
+ 2 files changed, 89 insertions(+), 48 deletions(-)
+
+-- 
+1.8.3.2
+
